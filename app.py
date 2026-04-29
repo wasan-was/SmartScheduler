@@ -1,12 +1,24 @@
+# =========================================================
+# 👩‍💻 Developed by: Wasan Ibrahim Al-Shukaili | وسن إبراهيم الشكيلي
+# =========================================================
+
 import streamlit as st
 import streamlit.components.v1 as components
+import google.generativeai as genai
 
-# 1. إعداد الصفحة لتكون واسعة جداً
 st.set_page_config(layout="wide", page_title="SmartScheduler")
 
-# 2. المكان المخصص لكود كانفا الطويل (HTML Embed)
-# انسخي الكود اللي يبدأ بـ <div من كانفا وضعيه هنا بالتمام
-my_canva_html = """<!doctype html>
+# 1️⃣ هنا تكتبين مفتاح الذكاء الاصطناعي (API Key)
+# امسحي الكلمة اللي بالداخل وحطي الكود الطويل اللي يبدأ بـ AIza
+API_KEY = "AIzaSyC_ogns7ghr7sdKxFYhZP7zQau9NluhLbI" 
+
+genai.configure(api_key=API_KEY)
+model = genai.GenerativeModel('gemini-pro')
+
+# 2️⃣ هنا تكتبين كود كانفا الطويل (HTML Embed)
+# امسحي الجملة اللي بالداخل والصقي كود كانفا (اللي يبدأ بـ <div)
+canva_html = """
+<!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -846,22 +858,29 @@ my_canva_html = """<!doctype html>
 </html>
 """
 
-# 3. الجزء البرمجي لإزالة الفراغات وضمان ظهور الرموز
-st.markdown("""
-    <style>
-    /* إزالة الحواف والفراغات الزائدة */
-    .main .block-container {
-        padding-top: 0rem;
-        padding-bottom: 0rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
-    iframe {
-        border-radius: 0px !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# باقي الكود البرمجي (لا تغيرين فيه شي)
+components.html(canva_html, height=800, scrolling=True)
 
-# عرض الكود ليكون "موقع" وليس "عرض"
-# قمنا بزيادة الارتفاع (height) لضمان عدم وجود أسهم تمرير
-components.html(my_canva_html, height=1200, scrolling=True)
+st.write("---")
+st.subheader("🤖 ليلى AI - المساعدة الذكية")
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+if prompt := st.chat_input("كيف يمكنني مساعدتكم اليوم؟"):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        instruction = "أنتِ ليلى، مساعدة ذكية لمشروع SmartScheduler. ساعدي المستخدمين بمهنية ولطف."
+        response = model.generate_content(f"{instruction}\nالمستخدم: {prompt}")
+        st.markdown(response.text)
+    
+    st.session_state.messages.append({"role": "assistant", "content": response.text})
+
+st.markdown("<center style='color: #6b7280; font-size: 0.8rem;'>© 2026 SmartScheduler Team</center>", unsafe_allow_html=True)
