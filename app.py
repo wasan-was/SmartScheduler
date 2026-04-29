@@ -1,11 +1,14 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# إعداد الصفحة لتكون واسعة وجميلة
 st.set_page_config(layout="wide", page_title="SmartScheduler")
 
-# كود كانفا الوحيد والرهيب حقك
-my_canva_code = """<!doctype html>
+# 1. إضافة مكتبة الأيقونات (هذا السطر هو اللي بيظهر الرموز)
+st.markdown('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">', unsafe_allow_html=True)
+
+# 2. تصميم كانفا حقك
+my_canva_code = """
+<!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -847,11 +850,28 @@ my_canva_code = """<!doctype html>
   })();
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f416219533ff9d7',t:'MTc3NzQ5Nzk2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
-"""
+</html>"""
+components.html(my_canva_code, height=600, scrolling=True)
 
-# عرض التصميم في الموقع
-components.html(my_canva_code, height=1000, scrolling=True)
+st.write("---")
 
-# لمسة بسيطة في الأسفل
-st.markdown("<center style='color: #ec4899;'>✨ صُنع بكل حب بواسطة وسن ✨</center>", unsafe_allow_html=True)
+# 3. عرض الأيقونات (الرموز) بشكل احترافي تحت التصميم
+st.markdown("### ✨ الرموز السريعة للمشروع")
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown('<i class="fas fa-clock" style="color:#ec4899;"></i> **الوقت**', unsafe_allow_html=True)
+    st.write("تنظيم الجدول")
+
+with col2:
+    st.markdown('<i class="fas fa-tasks" style="color:#ec4899;"></i> **المهام**', unsafe_allow_html=True)
+    st.write("توزيع الأدوار")
+
+with col3:
+    st.markdown('<i class="fas fa-users" style="color:#ec4899;"></i> **الفريق**', unsafe_allow_html=True)
+    st.write("أسيل وباقي البنات")
+
+with col4:
+    st.markdown('<i class="fas fa-robot" style="color:#ec4899;"></i> **ليلى AI**', unsafe_allow_html=True)
+    st.write("مساعدة ذكية")
