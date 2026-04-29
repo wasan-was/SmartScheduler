@@ -6,7 +6,7 @@ st.set_page_config(layout="wide", page_title="SmartScheduler")
 
 # 2. المكان المخصص لكود كانفا الطويل (HTML Embed)
 # انسخي الكود اللي يبدأ بـ <div من كانفا وضعيه هنا بالتمام
-my_canva_html = """ <!doctype html>
+my_canva_html = """<!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -54,18 +54,25 @@ my_canva_html = """ <!doctype html>
 
   .glossy-btn {
     background: linear-gradient(180deg, #FF6FB5 0%, #FF4FA3 50%, #E8388A 100%);
-    box-shadow: 0 4px 14px rgba(255, 79, 163, 0.4), 0 2px 4px rgba(255, 79, 163, 0.3), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 2px rgba(232,56,138,0.3);
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(255, 79, 163, 0.4), 0 2px 4px rgba(255, 79, 163, 0.3), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 2px rgba(232,56,138,0.3) !important;
+    transition: all 0.2s ease !important;
+    transform: translateY(0) !important;
   }
-  .glossy-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255, 79, 163, 0.5), 0 2px 6px rgba(255, 79, 163, 0.4), inset 0 1px 0 rgba(255,255,255,0.6); }
-  .glossy-btn:active { transform: translateY(0); }
+  .glossy-btn:hover { 
+    transform: translateY(-1px) !important; 
+    box-shadow: 0 6px 20px rgba(255, 79, 163, 0.5), 0 2px 6px rgba(255, 79, 163, 0.4), inset 0 1px 0 rgba(255,255,255,0.6) !important; 
+  }
+  .glossy-btn:active { transform: translateY(0) !important; }
 
   .glossy-btn-soft {
-    background: linear-gradient(180deg, #FFFFFF 0%, #FFF0F5 100%);
-    box-shadow: 0 2px 8px rgba(255, 79, 163, 0.15), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,181,216,0.3);
-    transition: all 0.2s ease;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFF0F5 100%) !important;
+    box-shadow: 0 2px 8px rgba(255, 79, 163, 0.15), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(255,181,216,0.3) !important;
+    transition: all 0.2s ease !important;
   }
-  .glossy-btn-soft:hover { background: linear-gradient(180deg, #FFFFFF 0%, #FFE5EE 100%); transform: translateY(-1px); }
+  .glossy-btn-soft:hover { 
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFE5EE 100%) !important; 
+    transform: translateY(-1px) !important; 
+  }
 
   .chip-urgent { background: linear-gradient(135deg, #FFB5D8, #FF8FBF); color: #8B1D4F; }
   .chip-short { background: linear-gradient(135deg, #FFD9C2, #FFC4A3); color: #8B4A1D; }
@@ -129,20 +136,16 @@ my_canva_html = """ <!doctype html>
 </style>
   <style>body { box-sizing: border-box; }</style>
  </head>
- <body class="h-full app-bg overflow-auto" style="width:100%;">
-  <!-- WELCOME SCREEN -->
+ <body class="h-full app-bg overflow-auto" style="width:100%;"><!-- WELCOME SCREEN -->
   <div id="welcome-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 app-bg" style="width:100%; height:100%;">
-   <div class="w-full max-w-md text-center">
-    <!-- Logo/Icon -->
-    <div class="w-20 h-20 rounded-3xl flex items-center justify-center glossy-btn mx-auto mb-6">
-     <i data-lucide="sparkles" class="text-white" style="width:40px;height:40px;"></i>
+   <div class="w-full max-w-md text-center"><!-- Logo/Icon -->
+    <div class="w-20 h-20 rounded-3xl flex items-center justify-center glossy-btn mx-auto mb-6"><i data-lucide="sparkles" class="text-white" style="width:40px;height:40px;"></i>
     </div><!-- Title -->
     <h1 class="font-serif-display text-4xl md:text-5xl font-semibold mb-3" style="color:var(--text-deep);">مرحباً بكِ في<br>
       SmartScheduler</h1><!-- Subtitle -->
     <p class="text-sm mb-8" style="color:var(--text-muted);">احلمي كبيرة، خطّطي بذكاء، حققي أحلامك ✨</p><!-- Form -->
     <form id="welcome-form" class="space-y-4">
-     <div class="relative">
-      <input id="team-code-input" type="text" placeholder="أدخلي رمز الفريق" maxlength="8" class="input-soft w-full px-6 py-4 rounded-2xl text-center text-lg font-semibold placeholder:opacity-60 uppercase" style="color:var(--text-deep); letter-spacing: 0.1em;" required autocomplete="off">
+     <div class="relative"><input id="team-code-input" type="text" placeholder="أدخلي رمز الفريق" maxlength="8" class="input-soft w-full px-6 py-4 rounded-2xl text-center text-lg font-semibold placeholder:opacity-60 uppercase" style="color:var(--text-deep); letter-spacing: 0.1em;" required autocomplete="off">
       <p class="text-xs mt-2" style="color:var(--text-muted);"><span id="char-count">0</span>/8 أحرف</p>
      </div><button type="submit" id="welcome-submit" class="glossy-btn w-full py-4 rounded-2xl text-white font-semibold text-base flex items-center justify-center gap-2 transition hover:scale-105" style="transform-origin: center;"> <i data-lucide="arrow-left" style="width:18px;height:18px;"></i> دخول </button> <button type="button" id="new-user-btn" class="glossy-btn-soft w-full py-3 rounded-2xl font-semibold text-base flex items-center justify-center gap-2 transition" style="color:var(--text-muted);"> <i data-lucide="user-plus" style="width:18px;height:18px;"></i> مستخدم جديد </button>
     </form><!-- Footer -->
@@ -150,34 +153,32 @@ my_canva_html = """ <!doctype html>
    </div>
   </div><!-- MAIN APP -->
   <main id="main-dashboard" class="w-full min-h-full p-4 md:p-6 lg:p-8 hidden" style="width:100%; padding-bottom:120px;">
-   <div class="max-w-[1400px] mx-auto">
-    <!-- HEADER: Clock + Dates + Greeting -->
+   <div class="max-w-[1400px] mx-auto"><!-- HEADER: Clock + Dates + Greeting -->
     <header class="bento-anim glass-card rounded-[32px] p-6 md:p-8 mb-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6" style="animation-delay: 0.05s;">
      <div class="flex items-center gap-4">
-      <div class="w-14 h-14 rounded-2xl flex items-center justify-center glossy-btn"><i data-lucide="sparkles" class="text-white" style="width:26px;height:26px;"></i>
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center glossy-btn">
+       <i data-lucide="sparkles" class="text-white" style="width:26px;height:26px;"></i>
       </div>
       <div>
        <h1 id="app-name" class="font-serif-display text-3xl md:text-4xl font-semibold tracking-tight" style="color:var(--text-deep);">SmartScheduler</h1>
        <p class="text-sm font-medium" style="color:var(--text-muted);"><span id="greeting-text" style="color:var(--text-muted);">صباح الخير، جميلتي!</span></p>
       </div>
      </div>
-     <div class="flex items-center gap-5 w-full lg:w-auto">
-      <!-- Settings Icon --> <button id="settings-btn" class="glossy-btn-soft w-12 h-12 rounded-full flex items-center justify-center" aria-label="الإعدادات"> <i data-lucide="bell" style="width:20px;height:20px;color:var(--pink-vibrant);"></i> </button>
+     <div class="flex items-center gap-5 w-full lg:w-auto"><!-- Settings Icon --> <button id="settings-btn" class="glossy-btn-soft w-12 h-12 rounded-full flex items-center justify-center" aria-label="الإعدادات"> <i data-lucide="bell" style="width:20px;height:20px;color:var(--pink-vibrant);"></i> </button>
      </div>
     </header><!-- MOTIVATIONAL QUOTE -->
     <section class="bento-anim glass-card rounded-[32px] p-6 md:p-8 mb-5 text-center" style="animation-delay: 0.08s; background: linear-gradient(135deg, rgba(255,79,163,0.08), rgba(255,181,216,0.12));">
-     <div class="flex items-center justify-center mb-3">
-      <i data-lucide="quote" style="width:20px;height:20px;color:var(--pink-vibrant);opacity:0.6;"></i>
+     <div class="flex items-center justify-center mb-3"><i data-lucide="quote" style="width:20px;height:20px;color:var(--pink-vibrant);opacity:0.6;"></i>
      </div>
      <p id="daily-quote" class="font-serif-display text-2xl font-semibold leading-relaxed" style="color:var(--text-deep);">اليوم فرصة جديدة لتحقيق أحلامك ✨</p>
      <p id="quote-author" class="text-xs mt-3" style="color:var(--text-muted);">— SmartScheduler</p>
     </section><!-- BENTO GRID -->
-    <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-5">
-     <!-- URGENT -->
+    <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-5"><!-- URGENT -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.1s;">
       <div class="flex items-center justify-between mb-5">
        <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFB5D8,#FF8FBF);"><i data-lucide="flame" style="width:20px;height:20px;color:#8B1D4F;"></i>
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFB5D8,#FF8FBF);">
+         <i data-lucide="flame" style="width:20px;height:20px;color:#8B1D4F;"></i>
         </div>
         <div>
          <h2 id="urgent-title" class="font-semibold text-lg" style="color:var(--text-deep);">مستعجلة</h2>
@@ -186,14 +187,16 @@ my_canva_html = """ <!doctype html>
        </div><button onclick="openAddModal('urgent')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة مهمة"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="urgent-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
-      <div id="urgent-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="feather" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
+      <div id="urgent-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);">
+       <i data-lucide="feather" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
        <p>رائع! لا توجد مهام طارئة 🎉</p>
       </div>
      </section><!-- SHORT-TERM -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.15s;">
       <div class="flex items-center justify-between mb-5">
        <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFD9C2,#FFC4A3);"><i data-lucide="sunrise" style="width:20px;height:20px;color:#8B4A1D;"></i>
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFD9C2,#FFC4A3);">
+         <i data-lucide="sunrise" style="width:20px;height:20px;color:#8B4A1D;"></i>
         </div>
         <div>
          <h2 id="shortterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">قصيرة المدى</h2>
@@ -202,14 +205,16 @@ my_canva_html = """ <!doctype html>
        </div><button onclick="openAddModal('shortterm')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة مهمة"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="shortterm-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
-      <div id="shortterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="calendar-days" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
+      <div id="shortterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);">
+       <i data-lucide="calendar-days" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
        <p>لم تخطط أي مهام هذا الأسبوع 📅</p>
       </div>
      </section><!-- LONG-TERM -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.2s;">
       <div class="flex items-center justify-between mb-5">
        <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#E8D5FF,#D4B8FF);"><i data-lucide="telescope" style="width:20px;height:20px;color:#4A1D8B;"></i>
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#E8D5FF,#D4B8FF);">
+         <i data-lucide="telescope" style="width:20px;height:20px;color:#4A1D8B;"></i>
         </div>
         <div>
          <h2 id="longterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">طويلة المدى</h2>
@@ -218,57 +223,69 @@ my_canva_html = """ <!doctype html>
        </div><button onclick="openAddModal('longterm')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة هدف"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="longterm-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
-      <div id="longterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="sparkle" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
+      <div id="longterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);">
+       <i data-lucide="sparkle" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
        <p>احلمي كبيرة — أضيفي هدفاً! 💭</p>
       </div>
      </section><!-- STATS / PROGRESS -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-3 lg:col-span-4" style="animation-delay: 0.25s; background: linear-gradient(135deg, rgba(255,79,163,0.12), rgba(255,181,216,0.15));">
       <div class="flex items-center gap-3 mb-4">
-       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FF6FB5,#FF4FA3);"><i data-lucide="chart-pie" style="width:20px;height:20px;color:white;"></i>
+       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FF6FB5,#FF4FA3);">
+        <i data-lucide="chart-pie" style="width:20px;height:20px;color:white;"></i>
        </div>
        <h2 class="font-semibold text-lg" style="color:var(--text-deep);">تقدم اليوم</h2>
       </div>
       <div class="flex items-center gap-5">
        <div class="relative w-24 h-24 flex-shrink-0">
-        <svg class="progress-ring" width="96" height="96"><circle cx="48" cy="48" r="40" stroke="rgba(255,181,216,0.4)" stroke-width="8" fill="none" /> <circle id="progress-circle" cx="48" cy="48" r="40" stroke="url(#progressGrad)" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" style="transition:stroke-dashoffset 0.6s ease;" /> <defs>
+        <svg class="progress-ring" width="96" height="96">
+         <circle cx="48" cy="48" r="40" stroke="rgba(255,181,216,0.4)" stroke-width="8" fill="none" /> <circle id="progress-circle" cx="48" cy="48" r="40" stroke="url(#progressGrad)" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" style="transition:stroke-dashoffset 0.6s ease;" /> <defs>
           <lineargradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
            <stop offset="0%" stop-color="#FF4FA3" />
            <stop offset="100%" stop-color="#FFB5D8" />
           </lineargradient>
          </defs>
         </svg>
-        <div class="absolute inset-0 flex flex-col items-center justify-center"><span id="progress-percent" class="font-sf text-2xl font-semibold" style="color:var(--text-deep);">0%</span> <span class="text-[10px]" style="color:var(--text-muted);">مكتمل</span>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+         <span id="progress-percent" class="font-sf text-2xl font-semibold" style="color:var(--text-deep);">0%</span> <span class="text-[10px]" style="color:var(--text-muted);">مكتمل</span>
         </div>
        </div>
        <div class="flex-1 space-y-2">
-        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FF4FA3;"></span>مكتمل</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-completed">0</span>
+        <div class="flex items-center justify-between text-sm">
+         <span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FF4FA3;"></span>مكتمل</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-completed">0</span>
         </div>
-        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FFD9C2;"></span>قيد الانتظار</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-pending">0</span>
+        <div class="flex items-center justify-between text-sm">
+         <span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FFD9C2;"></span>قيد الانتظار</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-pending">0</span>
         </div>
-        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#D4B8FF;"></span>الإجمالي</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-total">0</span>
+        <div class="flex items-center justify-between text-sm">
+         <span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#D4B8FF;"></span>الإجمالي</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-total">0</span>
         </div>
        </div>
       </div>
      </section><!-- QUICK ADD -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-3 lg:col-span-4" style="animation-delay: 0.3s;">
       <div class="flex items-center gap-3 mb-4">
-       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFE4EF,#FFD1E4);"><i data-lucide="wand-2" style="width:20px;height:20px;color:var(--pink-vibrant);"></i>
+       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFE4EF,#FFD1E4);">
+        <i data-lucide="wand-2" style="width:20px;height:20px;color:var(--pink-vibrant);"></i>
        </div>
        <h2 class="font-semibold text-lg" style="color:var(--text-deep);">إضافة سريعة</h2>
       </div>
-      <form id="quick-form" class="space-y-3"><input id="quick-input" type="text" placeholder="ما الذي يشغل بالك؟" class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium placeholder:opacity-60" style="color:var(--text-deep);">
-       <div class="grid grid-cols-3 gap-2"><button type="button" data-cat="urgent" class="cat-pill chip-urgent rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طارئ</button> <button type="button" data-cat="shortterm" class="cat-pill chip-short rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">قصير</button> <button type="button" data-cat="longterm" class="cat-pill chip-long rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طويل</button>
+      <form id="quick-form" class="space-y-3">
+       <input id="quick-input" type="text" placeholder="ما الذي يشغل بالك؟" class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium placeholder:opacity-60" style="color:var(--text-deep);">
+       <div class="grid grid-cols-3 gap-2">
+        <button type="button" data-cat="urgent" class="cat-pill chip-urgent rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طارئ</button> <button type="button" data-cat="shortterm" class="cat-pill chip-short rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">قصير</button> <button type="button" data-cat="longterm" class="cat-pill chip-long rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طويل</button>
        </div><button type="submit" id="quick-submit" class="glossy-btn w-full py-3 rounded-2xl text-white font-semibold text-sm flex items-center justify-center gap-2"> <i data-lucide="plus" style="width:16px;height:16px;"></i> إضافة مهمة </button>
       </form>
      </section><!-- FEEDBACK & RATING -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.35s;">
       <div class="flex items-center gap-3 mb-4">
-       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFC7D9,#FFB5D8);"><i data-lucide="heart" style="width:20px;height:20px;color:#8B1D4F;"></i>
+       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFC7D9,#FFB5D8);">
+        <i data-lucide="heart" style="width:20px;height:20px;color:#8B1D4F;"></i>
        </div>
        <h2 id="feedback-title" class="font-semibold text-lg" style="color:var(--text-deep);">التعليقات والتقييمات</h2>
       </div>
       <p class="text-xs mb-3" style="color:var(--text-muted);">كيف تجدين التطبيق معي؟ 💕</p>
-      <div id="star-row" class="flex items-center justify-center gap-1.5 mb-3"><!-- stars injected -->
+      <div id="star-row" class="flex items-center justify-center gap-1.5 mb-3">
+       <!-- stars injected -->
       </div><textarea id="feedback-input" rows="2" placeholder="شاركي آراءك..." class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium placeholder:opacity-60 resize-none" style="color:var(--text-deep);"></textarea> <button id="feedback-submit" class="glossy-btn mt-3 w-full py-2.5 rounded-2xl text-white font-semibold text-sm flex items-center justify-center gap-2"> <i data-lucide="send" style="width:14px;height:14px;"></i> إرسال </button>
       <p id="avg-rating" class="text-xs text-center mt-3" style="color:var(--text-muted);"></p>
      </section>
@@ -282,7 +299,8 @@ my_canva_html = """ <!doctype html>
   <aside id="chat-window" class="chat-window fixed bottom-24 right-6 w-[92vw] max-w-[380px] rounded-[28px] overflow-hidden z-40 hidden flex-col" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,0.9); max-height: 75%;">
    <div class="p-5 flex items-center justify-between" style="background: linear-gradient(135deg, #FFE4EF 0%, #FFD1E4 100%);">
     <div class="flex items-center gap-3">
-     <div class="w-10 h-10 rounded-full flex items-center justify-center floating-chat-btn" style="animation:none;"><i data-lucide="sparkles" class="text-white" style="width:18px;height:18px;"></i>
+     <div class="w-10 h-10 rounded-full flex items-center justify-center floating-chat-btn" style="animation:none;">
+      <i data-lucide="sparkles" class="text-white" style="width:18px;height:18px;"></i>
      </div>
      <div style="text-align: right;">
       <h3 id="ai-title" class="font-semibold text-sm" style="color:var(--text-deep);">تحدثي مع ليلى</h3>
@@ -290,10 +308,10 @@ my_canva_html = """ <!doctype html>
      </div>
     </div><button id="chat-close" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/60 transition" aria-label="إغلاق"> <i data-lucide="x" style="width:16px;height:16px;color:var(--text-muted);"></i> </button>
    </div>
-   <div id="chat-messages" class="flex-1 overflow-y-auto scroll-soft p-4 space-y-3" style="min-height: 280px; max-height: 360px;"><!-- seeded in JS -->
+   <div id="chat-messages" class="flex-1 overflow-y-auto scroll-soft p-4 space-y-3" style="min-height: 280px; max-height: 360px;">
+    <!-- seeded in JS -->
    </div>
-   <form id="chat-form" class="p-4 flex items-center gap-2 bg-white/40 border-t border-pink-200/50" style="backdrop-filter: blur(12px);">
-    <input id="chat-input" type="text" placeholder="سؤالي لليلى..." class="flex-1 px-4 py-3 rounded-2xl text-sm font-medium bg-white border-0 outline-none transition" style="color:var(--text-deep); box-shadow: 0 2px 8px rgba(255, 181, 216, 0.15);" autocomplete="off"> <button type="submit" class="glossy-btn w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition hover:scale-105" aria-label="إرسال"> <i data-lucide="send" class="text-white" style="width:16px;height:16px;"></i> </button>
+   <form id="chat-form" class="p-4 flex items-center gap-2 bg-white/40 border-t border-pink-200/50" style="backdrop-filter: blur(12px);"><input id="chat-input" type="text" placeholder="سؤالي لليلى..." class="flex-1 px-4 py-3 rounded-2xl text-sm font-medium bg-white border-0 outline-none transition" style="color:var(--text-deep); box-shadow: 0 2px 8px rgba(255, 181, 216, 0.15);" autocomplete="off"> <button type="submit" class="glossy-btn w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition hover:scale-105" aria-label="إرسال"> <i data-lucide="send" class="text-white" style="width:16px;height:16px;"></i> </button>
    </form>
    <p class="text-[10px] text-center pb-2 px-3" style="color:var(--text-muted);">تطوير: وسن ابراهيم الشكيلي 💫</p>
   </aside><!-- NOTIFICATION SETTINGS MODAL -->
@@ -302,35 +320,27 @@ my_canva_html = """ <!doctype html>
     <div class="flex items-center justify-between mb-5">
      <h3 class="font-serif-display text-2xl font-semibold" style="color:var(--text-deep);">إعدادات الإشعارات</h3><button id="settings-close" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-pink-50 transition" aria-label="إغلاق"> <i data-lucide="x" style="width:16px;height:16px;color:var(--text-muted);"></i> </button>
     </div>
-    <div class="space-y-5">
-     <!-- Morning Reminder -->
+    <div class="space-y-5"><!-- Morning Reminder -->
      <div class="glass-card rounded-2xl p-4">
-      <div class="flex items-center justify-between mb-3">
-       <label class="font-semibold text-sm" style="color:var(--text-deep);">تذكير الصباح</label> <input type="checkbox" id="morning-reminder" class="w-4 h-4 cursor-pointer" checked>
+      <div class="flex items-center justify-between mb-3"><label class="font-semibold text-sm" style="color:var(--text-deep);">تذكير الصباح</label> <input type="checkbox" id="morning-reminder" class="w-4 h-4 cursor-pointer" checked>
       </div>
-      <div class="flex items-center gap-2">
-       <input type="number" id="morning-hour" min="0" max="23" value="07" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="morning-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">صباحاً</span>
+      <div class="flex items-center gap-2"><input type="number" id="morning-hour" min="0" max="23" value="07" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="morning-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">صباحاً</span>
       </div>
      </div><!-- Midday Check-in -->
      <div class="glass-card rounded-2xl p-4">
-      <div class="flex items-center justify-between mb-3">
-       <label class="font-semibold text-sm" style="color:var(--text-deep);">فحص منتصف اليوم</label> <input type="checkbox" id="midday-reminder" class="w-4 h-4 cursor-pointer" checked>
+      <div class="flex items-center justify-between mb-3"><label class="font-semibold text-sm" style="color:var(--text-deep);">فحص منتصف اليوم</label> <input type="checkbox" id="midday-reminder" class="w-4 h-4 cursor-pointer" checked>
       </div>
-      <div class="flex items-center gap-2">
-       <input type="number" id="midday-hour" min="0" max="23" value="12" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="midday-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">ظهراً</span>
+      <div class="flex items-center gap-2"><input type="number" id="midday-hour" min="0" max="23" value="12" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="midday-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">ظهراً</span>
       </div>
      </div><!-- Evening Review -->
      <div class="glass-card rounded-2xl p-4">
-      <div class="flex items-center justify-between mb-3">
-       <label class="font-semibold text-sm" style="color:var(--text-deep);">مراجعة المساء</label> <input type="checkbox" id="evening-reminder" class="w-4 h-4 cursor-pointer" checked>
+      <div class="flex items-center justify-between mb-3"><label class="font-semibold text-sm" style="color:var(--text-deep);">مراجعة المساء</label> <input type="checkbox" id="evening-reminder" class="w-4 h-4 cursor-pointer" checked>
       </div>
-      <div class="flex items-center gap-2">
-       <input type="number" id="evening-hour" min="0" max="23" value="15" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="evening-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">مساءً</span>
+      <div class="flex items-center gap-2"><input type="number" id="evening-hour" min="0" max="23" value="15" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="evening-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">مساءً</span>
       </div>
      </div>
     </div>
-    <div class="flex gap-2 mt-6">
-     <button id="settings-cancel" class="glossy-btn-soft flex-1 py-3 rounded-2xl font-semibold text-sm" style="color:var(--text-muted);">إلغاء</button> <button id="settings-save" class="glossy-btn flex-1 py-3 rounded-2xl text-white font-semibold text-sm">حفظ</button>
+    <div class="flex gap-2 mt-6"><button id="settings-cancel" class="glossy-btn-soft flex-1 py-3 rounded-2xl font-semibold text-sm" style="color:var(--text-muted);">إلغاء</button> <button id="settings-save" class="glossy-btn flex-1 py-3 rounded-2xl text-white font-semibold text-sm">حفظ</button>
     </div>
     <p class="footer-credit text-center mt-4" style="color:var(--text-muted);">تطوير: وسن ابراهيم الشكيلي</p>
    </div>
@@ -340,8 +350,10 @@ my_canva_html = """ <!doctype html>
     <div class="flex items-center justify-between mb-4">
      <h3 id="modal-title" class="font-serif-display text-2xl font-semibold" style="color:var(--text-deep);">مهمة جديدة</h3><button id="modal-close" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-pink-50 transition" aria-label="إغلاق"> <i data-lucide="x" style="width:16px;height:16px;color:var(--text-muted);"></i> </button>
     </div>
-    <form id="modal-form" class="space-y-3"><input id="modal-input" type="text" placeholder="عنوان المهمة..." class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium" style="color:var(--text-deep);" required>
-     <div class="flex gap-2"><button type="button" id="modal-cancel" class="glossy-btn-soft flex-1 py-3 rounded-2xl font-semibold text-sm" style="color:var(--text-muted);">إلغاء</button> <button type="submit" id="modal-submit" class="glossy-btn flex-1 py-3 rounded-2xl text-white font-semibold text-sm">إضافة</button>
+    <form id="modal-form" class="space-y-3">
+     <input id="modal-input" type="text" placeholder="عنوان المهمة..." class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium" style="color:var(--text-deep);" required>
+     <div class="flex gap-2">
+      <button type="button" id="modal-cancel" class="glossy-btn-soft flex-1 py-3 rounded-2xl font-semibold text-sm" style="color:var(--text-muted);">إلغاء</button> <button type="submit" id="modal-submit" class="glossy-btn flex-1 py-3 rounded-2xl text-white font-semibold text-sm">إضافة</button>
      </div>
     </form>
    </div>
@@ -830,8 +842,9 @@ my_canva_html = """ <!doctype html>
     window.openAddModal = openAddModal;
   })();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f4194c16552f9d7',t:'MTc3NzUwMDA0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html> """
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f41b637f712f9d7',t:'MTc3NzUwMTQxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+"""
 
 # 3. الجزء البرمجي لإزالة الفراغات وضمان ظهور الرموز
 st.markdown("""
