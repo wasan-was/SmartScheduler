@@ -1,4 +1,4 @@
-import treamlit as st
+import streamlit as st
 import secrets
 import string
 import time
