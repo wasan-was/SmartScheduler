@@ -1,34 +1,11 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
+# إعداد الصفحة لتكون واسعة وجميلة
 st.set_page_config(layout="wide", page_title="SmartScheduler")
 
-# 2. إنشاء "قفل" للموقع
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
-
-# --- الحالة الأولى: إذا البنت لسه ما دخلت الرمز ---
-if not st.session_state['logged_in']:
-    st.markdown("<h1 style='text-align: center; color: #ec4899;'>🔐 دخول الفريق</h1>", unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.write("الرجاء إدخال الرمز الخاص بكِ للوصول إلى المهام")
-        user_code = st.text_input("الرمز (8 خانات كحد أقصى):", type="password")
-        
-        if st.button("دخول ✨"):
-            if 0 < len(user_code) <= 8:
-                st.session_state['logged_in'] = True
-                st.rerun()
-            else:
-                st.error("تأكدي من أن الرمز صحيح ولا يتجاوز 8 خانات")
-
-# --- الحالة الثانية: إذا الرمز صح، يفتح تصميم كانفا الوحيد اللي عندك ---
-else:
-    # هنا تحطين الكود الوحيد اللي عندك من كانفا
-    my_canva_code = """
-   <!doctype html>
+# كود كانفا الوحيد والرهيب حقك
+my_canva_code = """<!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -870,12 +847,11 @@ else:
   })();
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f416219533ff9d7',t:'MTc3NzQ5Nzk2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html> """
-    
-    # عرض التصميم
-    components.html(my_canva_code, height=900, scrolling=True)
-    
-    # زر للخروج إذا حبت البنت تقفل صفحتها
-    if st.sidebar.button("تسجيل الخروج"):
-        st.session_state['logged_in'] = False
-        st.rerun()
+</html>
+"""
+
+# عرض التصميم في الموقع
+components.html(my_canva_code, height=1000, scrolling=True)
+
+# لمسة بسيطة في الأسفل
+st.markdown("<center style='color: #ec4899;'>✨ صُنع بكل حب بواسطة وسن ✨</center>", unsafe_allow_html=True)
