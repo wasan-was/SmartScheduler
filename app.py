@@ -741,3 +741,42 @@ canva_code = """
 
 # هذا السطر هو اللي بيعرض تصميم كانفا داخل موقعك
 components.html(canva_code, height=1000, scrolling=True)
+import streamlit as st
+
+# 1. إعداد المخزن
+if 'users_data' not in st.session_state:
+    st.session_state['users_data'] = {}
+
+st.title("🔐 الدخول بالرمز الشخصي")
+
+# 2. خانة إدخال الرمز مع تحديد الطول
+user_code = st.text_input("أدخلي رمزك الخاص (بحد أقصى 8 خانات):", type="password", help="الرمز هو مفتاحك لاستعادة مهامك.")
+
+# 3. نظام التحقق والربط
+if user_code:
+    if len(user_code) > 8:
+        st.error("❌ الرمز طويل جداً! الرجاء استخدام رمز لا يزيد عن 8 أرقام أو أحرف.")
+    else:
+        # إذا الرمز صحيح الطول، نبدأ العمل
+        if user_code not in st.session_state['users_data']:
+            st.session_state['users_data'][user_code] = [] # إنشاء مساحة جديدة
+            st.success(f"تم تفعيل المساحة الخاصة بالرمز: {user_code}")
+        
+        # عرض المهام الخاصة بهذا الرمز
+        st.subheader("📝 قائمة مهامك")
+        
+        new_task = st.text_input("أضيفي مهمة جديدة لصفحتك:")
+        if st.button("حفظ المهمة ✅"):
+            if new_task:
+                st.session_state['users_data'][user_code].append(new_task)
+                st.rerun()
+
+        # عرض المهام المخزنة لهذا الرمز فقط
+        if st.session_state['users_data'][user_code]:
+            for i, task in enumerate(st.session_state['users_data'][user_code]):
+                st.write(f"{i+1}. {task}")
+        else:
+            st.info("لا توجد مهام محفوظة لهذا الرمز بعد.")
+
+else:
+    st.warning("الرجاء إدخال الرمز للبدء.")
