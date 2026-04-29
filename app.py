@@ -6,17 +6,17 @@ import streamlit as st
 import streamlit.components.v1 as components
 import google.generativeai as genai
 
+# إعدادات الصفحة
 st.set_page_config(layout="wide", page_title="SmartScheduler")
 
-# 1️⃣ هنا تكتبين مفتاح الذكاء الاصطناعي (API Key)
-# امسحي الكلمة اللي بالداخل وحطي الكود الطويل اللي يبدأ بـ AIza
-API_KEY = "AIzaSyC_ogns7ghr7sdKxFYhZP7zQau9NluhLbI" 
-
+# 1. إعداد الذكاء الاصطناعي (API Key)
+# ضعي مفتاحك هنا
+API_KEY = "AIzaSyCSxhubTPactkUaZ6TOzLvfafCF9NaC2ns" 
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
-# 2️⃣ هنا تكتبين كود كانفا الطويل (HTML Embed)
-# امسحي الجملة اللي بالداخل والصقي كود كانفا (اللي يبدأ بـ <div)
+# 2. كود كانفا (HTML)
+# ضعي كود كانفا الطويل هنا
 canva_html = """
 <!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
@@ -855,17 +855,28 @@ canva_html = """
   })();
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f41b637f712f9d7',t:'MTc3NzUwMTQxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
-"""
-
-# باقي الكود البرمجي (لا تغيرين فيه شي)
+</html>"""
 components.html(canva_html, height=800, scrolling=True)
 
 st.write("---")
-st.subheader("🤖 ليلى AI - المساعدة الذكية")
+st.subheader("🤖 ليلى AI")
 
+# نظام المحادثة
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-    
+        st.markdown(message["content"])
+
+if prompt := st.chat_input("اسألي ليلى..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        # لاحظي المسافة هنا (4 مسافات)
+        instruction = "أنتِ ليلى، مساعدة ذكية لمشروع SmartScheduler."
+        response = model.generate_content(f"{instruction}\n{prompt}")
+        st.markdown(response.text)
+        st.session_state.messages.append({"role": "assistant", "content": response.text})
