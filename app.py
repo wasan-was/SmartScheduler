@@ -866,7 +866,6 @@ st.subheader("🤖 ليلى AI - المساعدة الذكية")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
-
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
     
