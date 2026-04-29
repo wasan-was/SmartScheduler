@@ -168,14 +168,14 @@ canva_code = """
         <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFB5D8,#FF8FBF);"><i data-lucide="flame" style="width:20px;height:20px;color:#8B1D4F;"></i>
         </div>
         <div>
-         <h2 id="urgent-title" class="font-semibold text-lg" style="color:var(--text-deep);">طارئ</h2>
+         <h2 id="urgent-title" class="font-semibold text-lg" style="color:var(--text-deep);">مستعجله </h2>
          <p class="text-xs" style="color:var(--text-muted);"><span id="urgent-count">0</span> مهام اليوم</p>
         </div>
        </div><button onclick="openAddModal('urgent')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة مهمة"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="urgent-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
       <div id="urgent-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="feather" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
-       <p>رائع! لا توجد مهام طارئة 🎉</p>
+       <p>رائع! لا توجد مهام مستعجله 🎉</p>
       </div>
      </section><!-- SHORT-TERM -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.15s;">
@@ -184,14 +184,14 @@ canva_code = """
         <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFD9C2,#FFC4A3);"><i data-lucide="sunrise" style="width:20px;height:20px;color:#8B4A1D;"></i>
         </div>
         <div>
-         <h2 id="shortterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">قصير الأمد</h2>
+         <h2 id="shortterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">قصير المدى</h2>
          <p class="text-xs" style="color:var(--text-muted);">هذا الأسبوع <span id="shortterm-count">0</span></p>
         </div>
        </div><button onclick="openAddModal('shortterm')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة مهمة"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="shortterm-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
       <div id="shortterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="calendar-days" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
-       <p>لم تخطط أي مهام هذا الأسبوع 📅</p>
+       <p>لم تخططي أي مهام هذا الأسبوع 📅</p>
       </div>
      </section><!-- LONG-TERM -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.2s;">
@@ -200,14 +200,14 @@ canva_code = """
         <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#E8D5FF,#D4B8FF);"><i data-lucide="telescope" style="width:20px;height:20px;color:#4A1D8B;"></i>
         </div>
         <div>
-         <h2 id="longterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">طويل الأمد</h2>
+         <h2 id="longterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">طويل المدى</h2>
          <p class="text-xs" style="color:var(--text-muted);">الأحلام الكبيرة <span id="longterm-count">0</span></p>
         </div>
        </div><button onclick="openAddModal('longterm')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة هدف"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="longterm-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
       <div id="longterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="sparkle" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
-       <p>احلمي كبيرة — أضيفي هدفاً! 💭</p>
+       <p>احلامي كبيرة — أضيفي هدفاً! 💭</p>
       </div>
      </section><!-- STATS / PROGRESS -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-3 lg:col-span-4" style="animation-delay: 0.25s; background: linear-gradient(135deg, rgba(255,79,163,0.12), rgba(255,181,216,0.15));">
