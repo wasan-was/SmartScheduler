@@ -1,16 +1,12 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة (لتظهر بشكل احترافي وكامل)
-st.set_page_config(
-    page_title="SmartScheduler", 
-    page_icon="🎀", 
-    layout="wide"
-)
+# 1. إعداد الصفحة لتكون واسعة جداً
+st.set_page_config(layout="wide", page_title="SmartScheduler")
 
-# 2. المكان المخصص لكود كانفا (هذا هو المتغير البرمجي)
-# انتبهي: ضعي كود كانفا بين علامات الاقتباس الثلاثة ادناه
-my_canva_code = """ <!doctype html>
+# 2. المكان المخصص لكود كانفا الطويل (HTML Embed)
+# انسخي الكود اللي يبدأ بـ <div من كانفا وضعيه هنا بالتمام
+my_canva_html = """ <!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -835,19 +831,24 @@ my_canva_code = """ <!doctype html>
   })();
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f4194c16552f9d7',t:'MTc3NzUwMDA0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
-"""
+</html> """
 
-# 3. الأوامر البرمجية لعرض المحتوى
+# 3. الجزء البرمجي لإزالة الفراغات وضمان ظهور الرموز
 st.markdown("""
     <style>
-    .main { padding: 0rem; }
-    iframe { border-radius: 15px; }
+    /* إزالة الحواف والفراغات الزائدة */
+    .main .block-container {
+        padding-top: 0rem;
+        padding-bottom: 0rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    iframe {
+        border-radius: 0px !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-# استدعاء كود كانفا وعرضه داخل الموقع
-components.html(my_canva_code, height=1000, scrolling=True)
-
-# تذييل بسيط للموقع
-st.markdown("<center style='color: #ec4899;'>✨ SmartScheduler | وسن ✨</center>", unsafe_allow_html=True)
+# عرض الكود ليكون "موقع" وليس "عرض"
+# قمنا بزيادة الارتفاع (height) لضمان عدم وجود أسهم تمرير
+components.html(my_canva_html, height=1200, scrolling=True)
