@@ -1,10 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# إعداد الصفحة
-st.set_page_config(layout="wide", page_title="SmartScheduler")
+# 1. إعدادات الصفحة والأيقونات
+st.set_page_config(layout="wide", page_title="SmartScheduler", page_icon="📅")
 
-# هنا نضع الكود اللي نسختيه من كانفا
+# 2. عرض تصميم كانفا (الواجهة الجميلة)
 canva_code = """
 <!doctype html>
 <html lang="ar" dir="rtl" class="h-full">
@@ -20,6 +20,7 @@ canva_code = """
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&amp;display=swap" rel="stylesheet">
+  
   <style>
   :root {
     --pink-vibrant: #FF4FA3;
@@ -126,9 +127,11 @@ canva_code = """
   .time-input { width: 50px; text-align: center; }
 
   .footer-credit { font-size: 11px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.75; }
-</style>
-  <style>body { box-sizing: border-box; }</style>
+
+  body { box-sizing: border-box; }
+  </style>
  </head>
+ 
  <body class="h-full app-bg overflow-auto" style="width:100%;">
   <!-- MAIN APP -->
   <main class="w-full min-h-full p-4 md:p-6 lg:p-8" style="width:100%; padding-bottom:120px;">
@@ -136,84 +139,85 @@ canva_code = """
     <!-- HEADER: Clock + Dates + Greeting -->
     <header class="bento-anim glass-card rounded-[32px] p-6 md:p-8 mb-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6" style="animation-delay: 0.05s;">
      <div class="flex items-center gap-4">
-      <div class="w-14 h-14 rounded-2xl flex items-center justify-center glossy-btn"><i data-lucide="sparkles" class="text-white" style="width:26px;height:26px;"></i>
-      </div>
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center glossy-btn"><i data-lucide="sparkles" class="text-white" style="width:26px;height:26px;"></i></div>
       <div>
        <h1 id="app-name" class="font-serif-display text-3xl md:text-4xl font-semibold tracking-tight" style="color:var(--text-deep);">SmartScheduler</h1>
        <p class="text-sm font-medium" style="color:var(--text-muted);"><span id="greeting-text" style="color:var(--text-muted);">صباح الخير، جميلتي!</span></p>
       </div>
      </div>
      <div class="flex items-center gap-5 w-full lg:w-auto">
-      <!-- Digital Clock -->
       <div class="flex-1 lg:flex-initial">
-       <div id="clock" class="font-sf text-4xl md:text-5xl font-light tracking-tight leading-none" style="color:var(--text-deep); letter-spacing:-0.02em;"><span id="clock-h">12</span><span class="clock-colon mx-0.5">:</span><span id="clock-m">00</span> <span id="clock-ampm" class="text-xl font-medium mx-1" style="color:var(--pink-vibrant);">ص</span>
-       </div>
-       <div class="flex items-center gap-3 mt-2 text-xs font-sf font-medium"><span id="date-gregorian" style="color:var(--text-muted);">—</span> <span class="w-1 h-1 rounded-full" style="background:var(--pink-soft);"></span> <span id="date-hijri" style="color:var(--pink-vibrant);">—</span>
-       </div>
-      </div><!-- Settings Icon --> <button id="settings-btn" class="glossy-btn-soft w-12 h-12 rounded-full flex items-center justify-center" aria-label="الإعدادات"> <i data-lucide="bell" style="width:20px;height:20px;color:var(--pink-vibrant);"></i> </button>
+       <div id="clock" class="font-sf text-4xl md:text-5xl font-light tracking-tight leading-none" style="color:var(--text-deep); letter-spacing:-0.02em;"><span id="clock-h">12</span><span class="clock-colon mx-0.5">:</span><span id="clock-m">00</span> <span id="clock-ampm" class="text-xl font-medium mx-1" style="color:var(--pink-vibrant);">ص</span></div>
+       <div class="flex items-center gap-3 mt-2 text-xs font-sf font-medium"><span id="date-gregorian" style="color:var(--text-muted);">—</span> <span class="w-1 h-1 rounded-full" style="background:var(--pink-soft);"></span> <span id="date-hijri" style="color:var(--pink-vibrant);">—</span></div>
+      </div>
+      <button id="settings-btn" class="glossy-btn-soft w-12 h-12 rounded-full flex items-center justify-center" aria-label="الإعدادات"> <i data-lucide="bell" style="width:20px;height:20px;color:var(--pink-vibrant);"></i> </button>
      </div>
-    </header><!-- MOTIVATIONAL QUOTE -->
+    </header>
+
+    <!-- MOTIVATIONAL QUOTE -->
     <section class="bento-anim glass-card rounded-[32px] p-6 md:p-8 mb-5 text-center" style="animation-delay: 0.08s; background: linear-gradient(135deg, rgba(255,79,163,0.08), rgba(255,181,216,0.12));">
-     <div class="flex items-center justify-center mb-3">
-      <i data-lucide="quote" style="width:20px;height:20px;color:var(--pink-vibrant);opacity:0.6;"></i>
-     </div>
+     <div class="flex items-center justify-center mb-3"><i data-lucide="quote" style="width:20px;height:20px;color:var(--pink-vibrant);opacity:0.6;"></i></div>
      <p id="daily-quote" class="font-serif-display text-2xl font-semibold leading-relaxed" style="color:var(--text-deep);">اليوم فرصة جديدة لتحقيق أحلامك ✨</p>
      <p id="quote-author" class="text-xs mt-3" style="color:var(--text-muted);">— SmartScheduler</p>
-    </section><!-- BENTO GRID -->
+    </section>
+
+    <!-- BENTO GRID -->
     <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-5">
      <!-- URGENT -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.1s;">
       <div class="flex items-center justify-between mb-5">
        <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFB5D8,#FF8FBF);"><i data-lucide="flame" style="width:20px;height:20px;color:#8B1D4F;"></i>
-        </div>
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFB5D8,#FF8FBF);"><i data-lucide="flame" style="width:20px;height:20px;color:#8B1D4F;"></i></div>
         <div>
-         <h2 id="urgent-title" class="font-semibold text-lg" style="color:var(--text-deep);">مستعجله </h2>
+         <h2 id="urgent-title" class="font-semibold text-lg" style="color:var(--text-deep);">طارئ</h2>
          <p class="text-xs" style="color:var(--text-muted);"><span id="urgent-count">0</span> مهام اليوم</p>
         </div>
        </div><button onclick="openAddModal('urgent')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة مهمة"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="urgent-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
       <div id="urgent-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="feather" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
-       <p>رائع! لا توجد مهام مستعجله 🎉</p>
+       <p>رائع! لا توجد مهام طارئة 🎉</p>
       </div>
-     </section><!-- SHORT-TERM -->
+     </section>
+
+     <!-- SHORT-TERM -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.15s;">
       <div class="flex items-center justify-between mb-5">
        <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFD9C2,#FFC4A3);"><i data-lucide="sunrise" style="width:20px;height:20px;color:#8B4A1D;"></i>
-        </div>
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFD9C2,#FFC4A3);"><i data-lucide="sunrise" style="width:20px;height:20px;color:#8B4A1D;"></i></div>
         <div>
-         <h2 id="shortterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">قصير المدى</h2>
+         <h2 id="shortterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">قصير الأمد</h2>
          <p class="text-xs" style="color:var(--text-muted);">هذا الأسبوع <span id="shortterm-count">0</span></p>
         </div>
        </div><button onclick="openAddModal('shortterm')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة مهمة"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="shortterm-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
       <div id="shortterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="calendar-days" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
-       <p>لم تخططي أي مهام هذا الأسبوع 📅</p>
+       <p>لم تخطط أي مهام هذا الأسبوع 📅</p>
       </div>
-     </section><!-- LONG-TERM -->
+     </section>
+
+     <!-- LONG-TERM -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.2s;">
       <div class="flex items-center justify-between mb-5">
        <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#E8D5FF,#D4B8FF);"><i data-lucide="telescope" style="width:20px;height:20px;color:#4A1D8B;"></i>
-        </div>
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#E8D5FF,#D4B8FF);"><i data-lucide="telescope" style="width:20px;height:20px;color:#4A1D8B;"></i></div>
         <div>
-         <h2 id="longterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">طويل المدى</h2>
+         <h2 id="longterm-title" class="font-semibold text-lg" style="color:var(--text-deep);">طويل الأمد</h2>
          <p class="text-xs" style="color:var(--text-muted);">الأحلام الكبيرة <span id="longterm-count">0</span></p>
         </div>
        </div><button onclick="openAddModal('longterm')" class="glossy-btn-soft w-9 h-9 rounded-full flex items-center justify-center" aria-label="إضافة هدف"> <i data-lucide="plus" style="width:16px;height:16px;color:var(--pink-vibrant);"></i> </button>
       </div>
       <div id="longterm-list" class="space-y-2 max-h-[280px] overflow-y-auto scroll-soft pr-1"></div>
       <div id="longterm-empty" class="hidden text-center py-8 text-sm" style="color:var(--text-muted);"><i data-lucide="sparkle" style="width:24px;height:24px;margin:0 auto 8px;opacity:0.5;"></i>
-       <p>احلامي كبيرة — أضيفي هدفاً! 💭</p>
+       <p>احلمي كبيرة — أضيفي هدفاً! 💭</p>
       </div>
-     </section><!-- STATS / PROGRESS -->
+     </section>
+
+     <!-- STATS / PROGRESS -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-3 lg:col-span-4" style="animation-delay: 0.25s; background: linear-gradient(135deg, rgba(255,79,163,0.12), rgba(255,181,216,0.15));">
       <div class="flex items-center gap-3 mb-4">
-       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FF6FB5,#FF4FA3);"><i data-lucide="chart-pie" style="width:20px;height:20px;color:white;"></i>
-       </div>
+       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FF6FB5,#FF4FA3);"><i data-lucide="chart-pie" style="width:20px;height:20px;color:white;"></i></div>
        <h2 class="font-semibold text-lg" style="color:var(--text-deep);">تقدم اليوم</h2>
       </div>
       <div class="flex items-center gap-5">
@@ -225,73 +229,77 @@ canva_code = """
           </lineargradient>
          </defs>
         </svg>
-        <div class="absolute inset-0 flex flex-col items-center justify-center"><span id="progress-percent" class="font-sf text-2xl font-semibold" style="color:var(--text-deep);">0%</span> <span class="text-[10px]" style="color:var(--text-muted);">مكتمل</span>
-        </div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center"><span id="progress-percent" class="font-sf text-2xl font-semibold" style="color:var(--text-deep);">0%</span> <span class="text-[10px]" style="color:var(--text-muted);">مكتمل</span></div>
        </div>
        <div class="flex-1 space-y-2">
-        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FF4FA3;"></span>مكتمل</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-completed">0</span>
-        </div>
-        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FFD9C2;"></span>قيد الانتظار</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-pending">0</span>
-        </div>
-        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#D4B8FF;"></span>الإجمالي</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-total">0</span>
-        </div>
+        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FF4FA3;"></span>مكتمل</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-completed">0</span></div>
+        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#FFD9C2;"></span>قيد الانتظار</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-pending">0</span></div>
+        <div class="flex items-center justify-between text-sm"><span class="flex items-center gap-2" style="color:var(--text-muted);"><span class="w-2 h-2 rounded-full" style="background:#D4B8FF;"></span>الإجمالي</span> <span class="font-semibold font-sf" style="color:var(--text-deep);" id="stat-total">0</span></div>
        </div>
       </div>
-     </section><!-- QUICK ADD -->
+     </section>
+
+     <!-- QUICK ADD -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-3 lg:col-span-4" style="animation-delay: 0.3s;">
       <div class="flex items-center gap-3 mb-4">
-       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFE4EF,#FFD1E4);"><i data-lucide="wand-2" style="width:20px;height:20px;color:var(--pink-vibrant);"></i>
-       </div>
+       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFE4EF,#FFD1E4);"><i data-lucide="wand-2" style="width:20px;height:20px;color:var(--pink-vibrant);"></i></div>
        <h2 class="font-semibold text-lg" style="color:var(--text-deep);">إضافة سريعة</h2>
       </div>
       <form id="quick-form" class="space-y-3"><input id="quick-input" type="text" placeholder="ما الذي يشغل بالك؟" class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium placeholder:opacity-60" style="color:var(--text-deep);">
-       <div class="grid grid-cols-3 gap-2"><button type="button" data-cat="urgent" class="cat-pill chip-urgent rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طارئ</button> <button type="button" data-cat="shortterm" class="cat-pill chip-short rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">قصير</button> <button type="button" data-cat="longterm" class="cat-pill chip-long rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طويل</button>
-       </div><button type="submit" id="quick-submit" class="glossy-btn w-full py-3 rounded-2xl text-white font-semibold text-sm flex items-center justify-center gap-2"> <i data-lucide="plus" style="width:16px;height:16px;"></i> إضافة مهمة </button>
+       <div class="grid grid-cols-3 gap-2"><button type="button" data-cat="urgent" class="cat-pill chip-urgent rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طارئ</button> <button type="button" data-cat="shortterm" class="cat-pill chip-short rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">قصير</button> <button type="button" data-cat="longterm" class="cat-pill chip-long rounded-xl py-2 text-xs font-semibold ring-2 ring-transparent transition">طويل</button></div>
+       <button type="submit" id="quick-submit" class="glossy-btn w-full py-3 rounded-2xl text-white font-semibold text-sm flex items-center justify-center gap-2"> <i data-lucide="plus" style="width:16px;height:16px;"></i> إضافة مهمة </button>
       </form>
-     </section><!-- FEEDBACK & RATING -->
+     </section>
+
+     <!-- FEEDBACK & RATING -->
      <section class="bento-anim glass-card rounded-[32px] p-6 md:col-span-6 lg:col-span-4" style="animation-delay: 0.35s;">
       <div class="flex items-center gap-3 mb-4">
-       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFC7D9,#FFB5D8);"><i data-lucide="heart" style="width:20px;height:20px;color:#8B1D4F;"></i>
-       </div>
+       <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,#FFC7D9,#FFB5D8);"><i data-lucide="heart" style="width:20px;height:20px;color:#8B1D4F;"></i></div>
        <h2 id="feedback-title" class="font-semibold text-lg" style="color:var(--text-deep);">التعليقات والتقييمات</h2>
       </div>
       <p class="text-xs mb-3" style="color:var(--text-muted);">كيف تجدين التطبيق معي؟ 💕</p>
-      <div id="star-row" class="flex items-center justify-center gap-1.5 mb-3"><!-- stars injected -->
-      </div><textarea id="feedback-input" rows="2" placeholder="شاركي آراءك..." class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium placeholder:opacity-60 resize-none" style="color:var(--text-deep);"></textarea> <button id="feedback-submit" class="glossy-btn mt-3 w-full py-2.5 rounded-2xl text-white font-semibold text-sm flex items-center justify-center gap-2"> <i data-lucide="send" style="width:14px;height:14px;"></i> إرسال </button>
+      <div id="star-row" class="flex items-center justify-center gap-1.5 mb-3"></div>
+      <textarea id="feedback-input" rows="2" placeholder="شاركي آراءك..." class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium placeholder:opacity-60 resize-none" style="color:var(--text-deep);"></textarea> 
+      <button id="feedback-submit" class="glossy-btn mt-3 w-full py-2.5 rounded-2xl text-white font-semibold text-sm flex items-center justify-center gap-2"> <i data-lucide="send" style="width:14px;height:14px;"></i> إرسال </button>
       <p id="avg-rating" class="text-xs text-center mt-3" style="color:var(--text-muted);"></p>
      </section>
-    </div><!-- FOOTER -->
+    </div>
+
+    <!-- FOOTER -->
     <footer class="text-center mt-8 mb-20 py-4 border-t border-pink-200/40">
      <p class="text-xs mb-1" style="color:var(--text-muted);">❤️ صنع بحب من أجلك</p>
-     <p class="footer-credit" style="color:var(--text-muted);">تطوير: وسن ابراهيم الشكيلي</p>
     </footer>
    </div>
-  </main><!-- FLOATING LAYLA CHAT BUTTON --> <button id="chat-toggle" class="floating-chat-btn fixed bottom-6 right-6 w-16 h-16 rounded-full flex items-center justify-center z-40" aria-label="فتح مساعد ليلى"> <i data-lucide="sparkles" class="text-white" style="width:26px;height:26px;"></i> </button> <!-- LAYLA AI CHAT WINDOW -->
+  </main>
+
+  <!-- FLOATING LAYLA CHAT BUTTON -->
+  <button id="chat-toggle" class="floating-chat-btn fixed bottom-6 right-6 w-16 h-16 rounded-full flex items-center justify-center z-40" aria-label="فتح مساعد ليلى"> <i data-lucide="sparkles" class="text-white" style="width:26px;height:26px;"></i> </button>
+
+  <!-- LAYLA AI CHAT WINDOW -->
   <aside id="chat-window" class="chat-window fixed bottom-24 right-6 w-[92vw] max-w-[380px] rounded-[28px] overflow-hidden z-40 hidden flex-col" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,0.9); max-height: 75%;">
    <div class="p-5 flex items-center justify-between" style="background: linear-gradient(135deg, #FFE4EF 0%, #FFD1E4 100%);">
     <div class="flex items-center gap-3">
-     <div class="w-10 h-10 rounded-full flex items-center justify-center floating-chat-btn" style="animation:none;"><i data-lucide="sparkles" class="text-white" style="width:18px;height:18px;"></i>
-     </div>
+     <div class="w-10 h-10 rounded-full flex items-center justify-center floating-chat-btn" style="animation:none;"><i data-lucide="sparkles" class="text-white" style="width:18px;height:18px;"></i></div>
      <div style="text-align: right;">
       <h3 id="ai-title" class="font-semibold text-sm" style="color:var(--text-deep);">تحدثي مع ليلى</h3>
       <p class="text-[11px] flex items-center justify-end gap-1" style="color:var(--text-muted);"><span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> متصلة وجاهزة</p>
      </div>
     </div><button id="chat-close" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/60 transition" aria-label="إغلاق"> <i data-lucide="x" style="width:16px;height:16px;color:var(--text-muted);"></i> </button>
    </div>
-   <div id="chat-messages" class="flex-1 overflow-y-auto scroll-soft p-4 space-y-3" style="min-height: 280px; max-height: 360px;"><!-- seeded in JS -->
-   </div>
+   <div id="chat-messages" class="flex-1 overflow-y-auto scroll-soft p-4 space-y-3" style="min-height: 280px; max-height: 360px;"></div>
    <form id="chat-form" class="p-4 flex items-center gap-2 bg-white/40 border-t border-pink-200/50" style="backdrop-filter: blur(12px);">
-    <input id="chat-input" type="text" placeholder="سؤالي لليلى..." class="flex-1 px-4 py-3 rounded-2xl text-sm font-medium bg-white border-0 outline-none transition" style="color:var(--text-deep); box-shadow: 0 2px 8px rgba(255, 181, 216, 0.15);" autocomplete="off"> <button type="submit" class="glossy-btn w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition hover:scale-105" aria-label="إرسال"> <i data-lucide="send" class="text-white" style="width:16px;height:16px;"></i> </button>
+    <input id="chat-input" type="text" placeholder="سؤالي لليلى..." class="flex-1 px-4 py-3 rounded-2xl text-sm font-medium bg-white border-0 outline-none transition" style="color:var(--text-deep); box-shadow: 0 2px 8px rgba(255, 181, 216, 0.15);" autocomplete="off"> 
+    <button type="submit" class="glossy-btn w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition hover:scale-105" aria-label="إرسال"> <i data-lucide="send" class="text-white" style="width:16px;height:16px;"></i> </button>
    </form>
-   <p class="text-[10px] text-center pb-2 px-3" style="color:var(--text-muted);">تطوير: وسن ابراهيم الشكيلي 💫</p>
-  </aside><!-- NOTIFICATION SETTINGS MODAL -->
+  </aside>
+
+  <!-- NOTIFICATION SETTINGS MODAL -->
   <div id="settings-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background: rgba(139, 29, 79, 0.25); backdrop-filter: blur(8px);">
    <div class="glass-card rounded-[28px] p-6 w-full max-w-md" style="background: rgba(255,255,255,0.95);">
     <div class="flex items-center justify-between mb-5">
      <h3 class="font-serif-display text-2xl font-semibold" style="color:var(--text-deep);">إعدادات الإشعارات</h3><button id="settings-close" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-pink-50 transition" aria-label="إغلاق"> <i data-lucide="x" style="width:16px;height:16px;color:var(--text-muted);"></i> </button>
     </div>
     <div class="space-y-5">
-     <!-- Morning Reminder -->
      <div class="glass-card rounded-2xl p-4">
       <div class="flex items-center justify-between mb-3">
        <label class="font-semibold text-sm" style="color:var(--text-deep);">تذكير الصباح</label> <input type="checkbox" id="morning-reminder" class="w-4 h-4 cursor-pointer" checked>
@@ -299,7 +307,7 @@ canva_code = """
       <div class="flex items-center gap-2">
        <input type="number" id="morning-hour" min="0" max="23" value="07" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="morning-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">صباحاً</span>
       </div>
-     </div><!-- Midday Check-in -->
+     </div>
      <div class="glass-card rounded-2xl p-4">
       <div class="flex items-center justify-between mb-3">
        <label class="font-semibold text-sm" style="color:var(--text-deep);">فحص منتصف اليوم</label> <input type="checkbox" id="midday-reminder" class="w-4 h-4 cursor-pointer" checked>
@@ -307,7 +315,7 @@ canva_code = """
       <div class="flex items-center gap-2">
        <input type="number" id="midday-hour" min="0" max="23" value="12" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">:</span> <input type="number" id="midday-minute" min="0" max="59" value="00" class="time-input input-soft px-2 py-2 rounded-lg text-sm" style="color:var(--text-deep);"> <span style="color:var(--text-muted);">ظهراً</span>
       </div>
-     </div><!-- Evening Review -->
+     </div>
      <div class="glass-card rounded-2xl p-4">
       <div class="flex items-center justify-between mb-3">
        <label class="font-semibold text-sm" style="color:var(--text-deep);">مراجعة المساء</label> <input type="checkbox" id="evening-reminder" class="w-4 h-4 cursor-pointer" checked>
@@ -322,21 +330,25 @@ canva_code = """
     </div>
     <p class="footer-credit text-center mt-4" style="color:var(--text-muted);">تطوير: وسن ابراهيم الشكيلي</p>
    </div>
-  </div><!-- ADD TASK MODAL -->
+  </div>
+
+  <!-- ADD TASK MODAL -->
   <div id="add-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background: rgba(139, 29, 79, 0.25); backdrop-filter: blur(8px);">
    <div class="glass-card rounded-[28px] p-6 w-full max-w-md" style="background: rgba(255,255,255,0.95);">
     <div class="flex items-center justify-between mb-4">
      <h3 id="modal-title" class="font-serif-display text-2xl font-semibold" style="color:var(--text-deep);">مهمة جديدة</h3><button id="modal-close" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-pink-50 transition" aria-label="إغلاق"> <i data-lucide="x" style="width:16px;height:16px;color:var(--text-muted);"></i> </button>
     </div>
     <form id="modal-form" class="space-y-3"><input id="modal-input" type="text" placeholder="عنوان المهمة..." class="input-soft w-full px-4 py-3 rounded-2xl text-sm font-medium" style="color:var(--text-deep);" required>
-     <div class="flex gap-2"><button type="button" id="modal-cancel" class="glossy-btn-soft flex-1 py-3 rounded-2xl font-semibold text-sm" style="color:var(--text-muted);">إلغاء</button> <button type="submit" id="modal-submit" class="glossy-btn flex-1 py-3 rounded-2xl text-white font-semibold text-sm">إضافة</button>
-     </div>
+     <div class="flex gap-2"><button type="button" id="modal-cancel" class="glossy-btn-soft flex-1 py-3 rounded-2xl font-semibold text-sm" style="color:var(--text-muted);">إلغاء</button> <button type="submit" id="modal-submit" class="glossy-btn flex-1 py-3 rounded-2xl text-white font-semibold text-sm">إضافة</button></div>
     </form>
    </div>
-  </div><!-- TOAST -->
+  </div>
+
+  <!-- TOAST -->
   <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden px-5 py-3 rounded-2xl font-semibold text-sm text-white" style="background: linear-gradient(135deg, #FF4FA3, #FF6FB5); box-shadow: 0 10px 30px rgba(255,79,163,0.35);"></div>
+
   <script>
-  // ---------- State ----------
+  // STATE
   let allData = [];
   let quickCategory = 'urgent';
   let currentModalCategory = 'urgent';
@@ -347,8 +359,8 @@ canva_code = """
     app_name: 'SmartScheduler',
     greeting: 'صباح الخير، جميلتي!',
     urgent_title: 'طارئ',
-    shortterm_title: 'قصير الأمد',
-    longterm_title: 'طويل الأمد',
+    shortterm_title: 'قصيرة المدى',
+    longterm_title: 'طويلة المدى',
     ai_title: 'تحدثي مع ليلى',
     feedback_title: 'التعليقات والتقييمات',
     primary_color: '#FF4FA3',
@@ -359,9 +371,7 @@ canva_code = """
     font_family: 'Almarai'
   };
 
-  // ---------- Welcome Screen (Removed - Handle Login Yourself) ----------
-
-  // ---------- Clock & Dates ----------
+  // CLOCK & DATES
   function updateClock() {
     const now = new Date();
     let h = now.getHours();
@@ -384,7 +394,7 @@ canva_code = """
   updateClock();
   setInterval(updateClock, 1000);
 
-  // ---------- Toast ----------
+  // TOAST
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -393,7 +403,7 @@ canva_code = """
     setTimeout(() => { t.classList.add('hidden'); t.classList.remove('toast'); }, 2400);
   }
 
-  // ---------- Rendering ----------
+  // RENDERING
   function renderAll() {
     const tasks = allData.filter(d => d.type === 'task');
     ['urgent','shortterm','longterm'].forEach(cat => {
@@ -469,7 +479,7 @@ canva_code = """
     existing.forEach((el, id) => { if (!keep.has(id)) el.remove(); });
   }
 
-  // ---------- Task Actions ----------
+  // TASK ACTIONS
   async function createTask(title, category) {
     if (!title.trim()) return;
     if (allData.length >= 999) { showToast('لقد وصلتِ للحد الأقصى ✨'); return; }
@@ -504,7 +514,7 @@ canva_code = """
     if (result.isOk) showToast('تم الحذف');
   }
 
-  // ---------- Quick Form ----------
+  // QUICK FORM
   document.querySelectorAll('.cat-pill').forEach(pill => {
     pill.addEventListener('click', () => {
       quickCategory = pill.dataset.cat;
@@ -525,7 +535,7 @@ canva_code = """
     btn.disabled = false; btn.style.opacity = '1';
   });
 
-  // ---------- Modal ----------
+  // MODAL
   function openAddModal(cat) {
     currentModalCategory = cat;
     const labels = { urgent:'مهمة طارئة جديدة', shortterm:'مهمة قصيرة الأمد', longterm:'هدف طويل الأمد' };
@@ -552,7 +562,7 @@ canva_code = """
     closeAddModal();
   });
 
-  // ---------- Settings Modal ----------
+  // SETTINGS MODAL
   document.getElementById('settings-btn').addEventListener('click', () => {
     document.getElementById('settings-modal').classList.remove('hidden');
     document.getElementById('settings-modal').classList.add('flex');
@@ -578,7 +588,7 @@ canva_code = """
     closeSettingsModal();
   });
 
-  // ---------- Stars & Feedback ----------
+  // STARS & FEEDBACK
   function renderStars() {
     const row = document.getElementById('star-row');
     row.innerHTML = '';
@@ -617,7 +627,7 @@ canva_code = """
     }
   });
 
-  // ---------- AI Chat (Layla) ----------
+  // AI CHAT (LAYLA)
   const chatBtn = document.getElementById('chat-toggle');
   const chatWin = document.getElementById('chat-window');
   chatBtn.addEventListener('click', () => {
@@ -642,7 +652,7 @@ canva_code = """
     msgs.scrollTop = msgs.scrollHeight;
   }
 
-  // Seed initial AI greeting
+  // AI GREETING
   addChatMsg('السلام عليكم يا جميلتي 🌙', 'ai');
   addChatMsg('أنا ليلى، مساعدتك الشخصية. جاهزة لمساعدتك في تنظيم يومك 💫', 'ai');
 
@@ -674,7 +684,7 @@ canva_code = """
     setTimeout(() => addChatMsg(aiReply(val), 'ai'), 600);
   });
 
-  // ---------- Element SDK ----------
+  // ELEMENT SDK
   async function initElementSdk() {
     if (!window.elementSdk) return;
     await window.elementSdk.init({
@@ -716,7 +726,7 @@ canva_code = """
     });
   }
 
-  // ---------- Data SDK ----------
+  // DATA SDK
   async function initDataSdk() {
     const handler = {
       onDataChanged(data) {
@@ -728,55 +738,47 @@ canva_code = """
     if (!res.isOk) console.error('Data SDK init failed');
   }
 
-  // ---------- Boot ----------
+  // BOOT
   (async function boot() {
     await initElementSdk();
     await initDataSdk();
     lucide.createIcons();
     window.openAddModal = openAddModal;
   })();
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f4110ab01c3f9d7',t:'MTc3NzQ5NDYzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  </script>
+</body>
 </html>"""
+components.html(canva_code, height=600, scrolling=True)
 
-# هذا السطر هو اللي بيعرض تصميم كانفا داخل موقعك
-components.html(canva_code, height=1000, scrolling=True)
-import streamlit as st
+st.write("---") # خط فاصل بين التصميم والأدوات التفاعلية
 
-# 1. إعداد المخزن
-if 'users_data' not in st.session_state:
-    st.session_state['users_data'] = {}
+# 3. قسم الرمز والأيقونات (نظام الدخول الذكي)
+col1, col2 = st.columns([1, 2])
 
-st.title("🔐 الدخول بالرمز الشخصي")
-
-# 2. خانة إدخال الرمز مع تحديد الطول
-user_code = st.text_input("أدخلي رمزك الخاص (بحد أقصى 8 خانات):", type="password", help="الرمز هو مفتاحك لاستعادة مهامك.")
-
-# 3. نظام التحقق والربط
-if user_code:
-    if len(user_code) > 8:
-        st.error("❌ الرمز طويل جداً! الرجاء استخدام رمز لا يزيد عن 8 أرقام أو أحرف.")
-    else:
-        # إذا الرمز صحيح الطول، نبدأ العمل
-        if user_code not in st.session_state['users_data']:
-            st.session_state['users_data'][user_code] = [] # إنشاء مساحة جديدة
-            st.success(f"تم تفعيل المساحة الخاصة بالرمز: {user_code}")
-        
-        # عرض المهام الخاصة بهذا الرمز
-        st.subheader("📝 قائمة مهامك")
-        
-        new_task = st.text_input("أضيفي مهمة جديدة لصفحتك:")
-        if st.button("حفظ المهمة ✅"):
-            if new_task:
-                st.session_state['users_data'][user_code].append(new_task)
-                st.rerun()
-
-        # عرض المهام المخزنة لهذا الرمز فقط
-        if st.session_state['users_data'][user_code]:
-            for i, task in enumerate(st.session_state['users_data'][user_code]):
-                st.write(f"{i+1}. {task}")
+with col1:
+    st.markdown("### 🔐 الوصول السريع")
+    code_input = st.text_input("أدخلي الرمز المتغير:", placeholder="A78B...")
+    if st.button("تحقق من الرمز ✅"):
+        if code_input.upper() == "A78B": # يمكنك تغيير الرمز هنا
+            st.success("تم تفعيل الصلاحية!")
         else:
-            st.info("لا توجد مهام محفوظة لهذا الرمز بعد.")
+            st.error("الرمز غير صحيح")
 
-else:
-    st.warning("الرجاء إدخال الرمز للبدء.")
+# 4. ربط ليلى AI (الذكاء الاصطناعي)
+with col2:
+    st.markdown("### 🤖 اسألي ليلى AI")
+    user_message = st.text_input("كيف يمكنني مساعدتك اليوم في مشروعك؟")
+    
+    if st.button("إرسال إلى ليلى ✨"):
+        if user_message:
+            with st.spinner('ليلى تفكر...'):
+                # هنا نضع ردود ذكية مؤقتة حتى نربطها بـ OpenAI لاحقاً
+                st.chat_message("assistant").write(f"يا وسن، بخصوص '{user_message}'، أقترح عليكِ البدء بتنظيم المهام مع زميلاتك وتوزيع الأدوار فوراً!")
+        else:
+            st.warning("الرجاء كتابة سؤال لليلى.")
+
+# 5. قسم الأيقونات والروابط السريعة
+st.sidebar.markdown("### 🔗 روابط سريعة")
+st.sidebar.button("📁 ملفات المشروع")
+st.sidebar.button("📊 إحصائيات الفريق")
+st.sidebar.button("⚙️ الإعدادات")
